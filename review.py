@@ -9,6 +9,10 @@ parser.add_option("-H", type="int", dest="hours", default=0)
 parser.add_option("--delete", action="store_true", dest="delete", default=False)
 parser.add_option("-f", action="store_true", dest="force", default=False)
 parser.add_option("-q", action="store_true", dest="quiet", default=False)
+parser.add_option("--host", dest="host", default="localhost")
+parser.add_option("--port", dest="port", type="int", default=8089)
+parser.add_option("--username", dest="username", default="admin")
+parser.add_option("--password", dest="password", default="changeme")
 
 (options, args) = parser.parse_args()
 
@@ -21,7 +25,7 @@ query = {"query":query_string}
 print "Current time %s, finding review records older than %s" % (str(datetime.datetime.fromtimestamp(time.time())), str(datetime.datetime.fromtimestamp(search_time))       )
 print
                                   
-service = client.connect(host="54.151.38.185", port=8089, username="admin", password="s3cur3m3", owner="nobody", app="SA-ThreatIntelligence")
+service = client.connect(host=options.host, port=options.port, username=options.username, password=options.password, owner="nobody", app="SA-ThreatIntelligence")
 
 response = service.get("storage/collections/data/incident_review", **query )
 
